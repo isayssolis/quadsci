@@ -1,8 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
-
-
+import json
 
 app = Flask(__name__)
 
@@ -15,32 +14,47 @@ CORS(app, resources={r"/*":{'origins':"*"}})
 
 #Dashboard
 @app.route('/', methods=['GET'])
-def greetings():
-    return("Hello, world!")
+def dashboard():
+    response_object = {}
+    response_object['launches'] = get_spacexdata('https://api.spacexdata.com/v4/launches')
+    response_object['rockets'] = get_spacexdata('https://api.spacexdata.com/v4/rockets')
+    return response_object
 
+#Rokets
+@app.route('/api/rockets', methods=['GET'])
+def rockets():
+    response_object = {}
+    #Retrive specific values to compare Height and Mass 
+    api_data = get_spacexdata('https://api.spacexdata.com/v4/rockets')
+    print('api_data:   ---', type(api_data))
+    keep_keys = ['name', 'mass', 'height','id']
+    extracted_ = [{key: d.get(key) for key in keep_keys if key in d} for d in api_data]
 
+    response_object['rockets'] = extracted_
+    return response_object
 
-
-
-def get_launches(api_url, params=None):
-    """
-    Fetches data from a specified API URL.
-
-    Args:
-        api_url (str): The URL of the API endpoint.
-        params (dict, optional): A dictionary of query parameters to send with the request.
-
-    Returns:
-        dict or None: The JSON response from the API, or None if an error occurs.
-    """
-    try:
-        response = requests.get(api_url, params=params)
-        response.raise_for_status()  # Raise an exception for bad status codes (4xx or 5xx)
-        return response.json()  # Parse the JSON response
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data from API: {e}")
-        return None
+# try:  removing keys instead of keep: https://www.google.com/search?q=remove+all+keys+from+list+and+keep+some&sca_esv=abfe88eb74890cc8&source=hp&ei=Kg6gaNTRA92kqtsP78vauAg&iflsig=AOw8s4IAAAAAaKAcOstsFWg2MSaODh_lbcrrhR2wxnA3&ved=0ahUKEwjUjoWBxI6PAxVdkmoFHe-lFocQ4dUDCA0&uact=5&oq=remove+all+keys+from+list+and+keep+some&gs_lp=Egdnd3Mtd2l6IidyZW1vdmUgYWxsIGtleXMgZnJvbSBsaXN0IGFuZCBrZWVwIHNvbWUyBBAhGBVI4H5Q3wRY331wBXgAkAEAmAHBAaABziaqAQQ4LjM0uAEDyAEA-AEBmAIvoAL6J6gCCsICChAAGAMY6gIYjwHCAgoQLhgDGOoCGI8BwgILEC4YgAQYsQMYgwHCAggQLhiABBixA8ICChAAGIAEGEMYigXCAggQABiABBixA8ICDhAAGIAEGLEDGIMBGIoFwgILEAAYgAQYsQMYgwHCAgsQABiABBixAxiKBcICBRAAGIAEwgIQEAAYgAQYsQMYQxiDARiKBcICDhAuGIAEGLEDGNEDGMcBwgIHEAAYgAQYE8ICCBAAGBMYFhgewgIGEAAYFhgewgIFECEYnwXCAggQABiABBiiBMICBRAAGO8FwgIIEAAYogQYiQWYAwnxBQevWccLAR8pkgcFMTEuMzagB9zQAbIHBDYuMza4B90nwgcHNC4yMy4yMMgHcw&sclient=gws-wiz
+    
+def get_spacexdata(api_url):
+        external_api_url = api_url  
+        try:
+            response = requests.get(external_api_url)
+            response.raise_for_status()  # exception for HTTP errors (4xx or 5xx)
+            data = response.json()  
+            return data
+            #print(data)
+        except requests.exceptions.RequestException as e:
+            return jsonify({"error": str(e)}), 500  # Return error respons
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+    #TODO
+    # Sacar endpoints de launches  con 
+    #   flitro e success  rate    o   frecuencia de lanzamientos
+    # Sacar endpooints de starlink
+        # con posiciones satelitales o parametros orbitales 
+    #Pensar en los endpoints de dashboard
