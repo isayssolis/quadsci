@@ -25,16 +25,27 @@ def dashboard():
 def rockets():
     response_object = {}
     #Retrive specific values to compare Height and Mass 
-    api_data = get_spacexdata('https://api.spacexdata.com/v4/rockets')
-    print('api_data:   ---', type(api_data))
-    keep_keys = ['name', 'mass', 'height','id']
-    extracted_ = [{key: d.get(key) for key in keep_keys if key in d} for d in api_data]
-
-    response_object['rockets'] = extracted_
+    keep = ['name', 'mass', 'height','id']
+    response_object['rockets'] = filter_endpoint_data('https://api.spacexdata.com/v4/rockets',keep)
     return response_object
 
-# try:  removing keys instead of keep: https://www.google.com/search?q=remove+all+keys+from+list+and+keep+some&sca_esv=abfe88eb74890cc8&source=hp&ei=Kg6gaNTRA92kqtsP78vauAg&iflsig=AOw8s4IAAAAAaKAcOstsFWg2MSaODh_lbcrrhR2wxnA3&ved=0ahUKEwjUjoWBxI6PAxVdkmoFHe-lFocQ4dUDCA0&uact=5&oq=remove+all+keys+from+list+and+keep+some&gs_lp=Egdnd3Mtd2l6IidyZW1vdmUgYWxsIGtleXMgZnJvbSBsaXN0IGFuZCBrZWVwIHNvbWUyBBAhGBVI4H5Q3wRY331wBXgAkAEAmAHBAaABziaqAQQ4LjM0uAEDyAEA-AEBmAIvoAL6J6gCCsICChAAGAMY6gIYjwHCAgoQLhgDGOoCGI8BwgILEC4YgAQYsQMYgwHCAggQLhiABBixA8ICChAAGIAEGEMYigXCAggQABiABBixA8ICDhAAGIAEGLEDGIMBGIoFwgILEAAYgAQYsQMYgwHCAgsQABiABBixAxiKBcICBRAAGIAEwgIQEAAYgAQYsQMYQxiDARiKBcICDhAuGIAEGLEDGNEDGMcBwgIHEAAYgAQYE8ICCBAAGBMYFhgewgIGEAAYFhgewgIFECEYnwXCAggQABiABBiiBMICBRAAGO8FwgIIEAAYogQYiQWYAwnxBQevWccLAR8pkgcFMTEuMzagB9zQAbIHBDYuMza4B90nwgcHNC4yMy4yMMgHcw&sclient=gws-wiz
-    
+
+#Launches
+@app.route('/api/launches', methods=['GET'])
+def launches():
+    response_object = {}
+    keep = ['name', 'date_utc', 'success']
+    response_object['launches'] = filter_endpoint_data('https://api.spacexdata.com/v4/launches',keep)
+    return response_object
+
+#Starlink
+@app.route('/api/starlink', methods=['GET'])
+def starlink():
+    response_object = {}
+    keep = ['spaceTrack', 'static_fire_date_utc', 'success']
+    response_object['launches'] = filter_endpoint_data('https://api.spacexdata.com/v4/launches',keep)
+    return response_object
+
 def get_spacexdata(api_url):
         external_api_url = api_url  
         try:
@@ -45,6 +56,13 @@ def get_spacexdata(api_url):
             #print(data)
         except requests.exceptions.RequestException as e:
             return jsonify({"error": str(e)}), 500  # Return error respons
+
+
+def filter_endpoint_data(url, keep_keys):
+        api_data = get_spacexdata(url)
+        print('api_data:   ---', type(api_data))
+        extracted_ = [{key: d.get(key) for key in keep_keys if key in d} for d in api_data]
+        return extracted_
 
 
 if __name__ == "__main__":
@@ -58,3 +76,4 @@ if __name__ == "__main__":
     # Sacar endpooints de starlink
         # con posiciones satelitales o parametros orbitales 
     #Pensar en los endpoints de dashboard
+    # try: in filter_endpoint_data... removing keys instead of keep: https://www.google.com/search?q=remove+all+keys+from+list+and+keep+some&sca_esv=abfe88eb74890cc8&source=hp&ei=Kg6gaNTRA92kqtsP78vauAg&iflsig=AOw8s4IAAAAAaKAcOstsFWg2MSaODh_lbcrrhR2wxnA3&ved=0ahUKEwjUjoWBxI6PAxVdkmoFHe-lFocQ4dUDCA0&uact=5&oq=remove+all+keys+from+list+and+keep+some&gs_lp=Egdnd3Mtd2l6IidyZW1vdmUgYWxsIGtleXMgZnJvbSBsaXN0IGFuZCBrZWVwIHNvbWUyBBAhGBVI4H5Q3wRY331wBXgAkAEAmAHBAaABziaqAQQ4LjM0uAEDyAEA-AEBmAIvoAL6J6gCCsICChAAGAMY6gIYjwHCAgoQLhgDGOoCGI8BwgILEC4YgAQYsQMYgwHCAggQLhiABBixA8ICChAAGIAEGEMYigXCAggQABiABBixA8ICDhAAGIAEGLEDGIMBGIoFwgILEAAYgAQYsQMYgwHCAgsQABiABBixAxiKBcICBRAAGIAEwgIQEAAYgAQYsQMYQxiDARiKBcICDhAuGIAEGLEDGNEDGMcBwgIHEAAYgAQYE8ICCBAAGBMYFhgewgIGEAAYFhgewgIFECEYnwXCAggQABiABBiiBMICBRAAGO8FwgIIEAAYogQYiQWYAwnxBQevWccLAR8pkgcFMTEuMzagB9zQAbIHBDYuMza4B90nwgcHNC4yMy4yMMgHcw&sclient=gws-wiz
