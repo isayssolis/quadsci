@@ -13,7 +13,7 @@ CORS(app, resources={r"/*":{'origins':"*"}})
 
 
 #Dashboard
-@app.route('/', methods=['GET'])
+@app.route('/api/dashboard', methods=['GET'])
 def dashboard():
     response_object = {}
     response_object['launches'] = get_spacexdata('https://api.spacexdata.com/v4/launches')
@@ -43,7 +43,7 @@ def launches():
 def starlink():
     response_object = {}
     keep = ['spaceTrack', 'static_fire_date_utc', 'success']
-    response_object['launches'] = filter_endpoint_data('https://api.spacexdata.com/v4/launches',keep)
+    response_object['starlink'] = filter_endpoint_data('https://api.spacexdata.com/v4/launches',keep)
     return response_object
 
 def get_spacexdata(api_url):
