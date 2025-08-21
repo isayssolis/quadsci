@@ -1,5 +1,7 @@
 <script>
+import CircularPlot from "@/components/CircularPlot.vue";
 export default {
+  components: {CircularPlot},
   data(){
     return{
       results:[],
@@ -38,15 +40,16 @@ export default {
 </script>
 
 <template>
-  <div>
-    <div v-if="isLoading"><Spinner /></div>
-    <div v-else-if="!isLoading && error" >
-      <Alert v-bind:text="error"></Alert>
+  <div class="container">
+    <div class="row">
+      <div v-if="isLoading"><Spinner /></div>
+      <div v-else-if="!isLoading && error" >
+        <Alert v-bind:text="error"></Alert>
+      </div>
+      <div v-else >
+        <h1>Ships</h1>
+        <CircularPlot v-bind:data="results.ships"></CircularPlot>
+      </div>
     </div>
-    <h1 v-else >Home</h1>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -8,6 +8,9 @@ import Home from './components/Home.vue'
 import Starlink from './components/Starlink.vue'
 import Spinner from './components/Spinner.vue'
 import Alert from './components/Alert.vue'
+import ScatterPlot from './components/ScatterPlot.vue'
+import AreaChart from './components/AreaChart.vue'
+import CircularPlot from './components/CircularPlot.vue'
 
 
 
@@ -33,6 +36,10 @@ app.component('Launches', Launches);
 app.component('Starlink', Starlink);
 app.component('Spinner', Spinner);
 app.component('Alert', Alert);
+app.component('ScatterPlot', ScatterPlot);
+app.component('AreaChart', AreaChart);
+app.component('CircularPlot', CircularPlot);
+
 
 
 app.mount('#app')

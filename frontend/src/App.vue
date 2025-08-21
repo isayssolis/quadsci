@@ -3,8 +3,11 @@
 <template>
   <Header></Header>
   <main>
+    <br>
     <router-view></router-view>
   </main>
 </template>
 
-<style scoped></style>
+<style>
+body{background-color: #e9ecef}
+</style>

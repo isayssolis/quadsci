@@ -23,7 +23,7 @@ export default {
           .then(data => {
             this.isLoading = false;
             this.results = data;
-            console.log(data)
+            //console.log(data)
           })
           .catch(error=>{
             this.isLoading = false;
@@ -39,15 +39,16 @@ export default {
 </script>
 
 <template>
-  <div>
-    <div v-if="isLoading"><Spinner /></div>
-    <div v-else-if="!isLoading && error" >
-      <Alert v-bind:text="error"></Alert>
+  <div class="container">
+    <div class="row">
+      <div v-if="isLoading"><Spinner /></div>
+      <div v-else-if="!isLoading && error" >
+        <Alert v-bind:text="error"></Alert>
+      </div>
+      <div v-else >
+        <h1>Launches</h1>
+        <AreaChart v-bind:data="results.launches"></AreaChart>
+      </div>
     </div>
-    <h1 v-else >Launches</h1>
   </div>
 </template>
-
-<style scoped>
-
-</style>

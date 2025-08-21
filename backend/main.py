@@ -16,7 +16,8 @@ CORS(app, resources={r"/*":{'origins':"*"}})
 @app.route('/api/dashboard', methods=['GET'])
 def dashboard():
     response_object = {}
-    response_object['launches'] = get_spacexdata('https://api.spacexdata.com/v4/launches')
+    keep = ['name', 'launches']
+    response_object['ships'] = filter_endpoint_data('https://api.spacexdata.com/v4/ships',keep)
     response_object['rockets'] = get_spacexdata('https://api.spacexdata.com/v4/rockets')
     return response_object
 
@@ -34,7 +35,7 @@ def rockets():
 @app.route('/api/launches', methods=['GET'])
 def launches():
     response_object = {}
-    keep = ['name', 'date_utc', 'success']
+    keep = ['name', 'static_fire_date_utc', 'success']
     response_object['launches'] = filter_endpoint_data('https://api.spacexdata.com/v4/launches',keep)
     return response_object
 
