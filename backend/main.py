@@ -68,13 +68,3 @@ def filter_endpoint_data(url, keep_keys):
 
 if __name__ == "__main__":
     app.run()
-
-
-
-    #TODO
-    # Sacar endpoints de launches  con 
-    #   flitro e success  rate    o   frecuencia de lanzamientos
-    # Sacar endpooints de starlink
-        # con posiciones satelitales o parametros orbitales 
-    #Pensar en los endpoints de dashboard
-    # try: in filter_endpoint_data... removing keys instead of keep: https://www.google.com/search?q=remove+all+keys+from+list+and+keep+some&sca_esv=abfe88eb74890cc8&source=hp&ei=Kg6gaNTRA92kqtsP78vauAg&iflsig=AOw8s4IAAAAAaKAcOstsFWg2MSaODh_lbcrrhR2wxnA3&ved=0ahUKEwjUjoWBxI6PAxVdkmoFHe-lFocQ4dUDCA0&uact=5&oq=remove+all+keys+from+list+and+keep+some&gs_lp=Egdnd3Mtd2l6IidyZW1vdmUgYWxsIGtleXMgZnJvbSBsaXN0IGFuZCBrZWVwIHNvbWUyBBAhGBVI4H5Q3wRY331wBXgAkAEAmAHBAaABziaqAQQ4LjM0uAEDyAEA-AEBmAIvoAL6J6gCCsICChAAGAMY6gIYjwHCAgoQLhgDGOoCGI8BwgILEC4YgAQYsQMYgwHCAggQLhiABBixA8ICChAAGIAEGEMYigXCAggQABiABBixA8ICDhAAGIAEGLEDGIMBGIoFwgILEAAYgAQYsQMYgwHCAgsQABiABBixAxiKBcICBRAAGIAEwgIQEAAYgAQYsQMYQxiDARiKBcICDhAuGIAEGLEDGNEDGMcBwgIHEAAYgAQYE8ICCBAAGBMYFhgewgIGEAAYFhgewgIFECEYnwXCAggQABiABBiiBMICBRAAGO8FwgIIEAAYogQYiQWYAwnxBQevWccLAR8pkgcFMTEuMzagB9zQAbIHBDYuMza4B90nwgcHNC4yMy4yMMgHcw&sclient=gws-wiz
