@@ -13,7 +13,7 @@ export default {
     loadData(){
       this.isLoading = true;
       this.error = null;
-      fetch('http://127.0.0.1:5000/api/dashboard')
+      fetch('https://flask-test1-dun.vercel.app/api/dashboard')
           .then((res)=>{
             if(res.ok){
               return res.json();
