@@ -67,7 +67,7 @@ def filter_endpoint_data(url, keep_keys):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
 
 
 
