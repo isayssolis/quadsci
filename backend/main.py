@@ -7,10 +7,13 @@ app = Flask(__name__)
 
 app.config.from_object(__name__)
 
-#CORS(app, resources={r"/*":{'origins':"*"}})
+CORS(app, resources={r"/*":{'origins':"*"}})
 #CORS(app, resources={r'/*':{'origins':'http://localhost:8080', "allow_headers": "Access-Control-Allow-Origin"}})
-CORS(app, resources={r'/*':{'origins':'https://quadsci-qv1s.vercel.app/', "allow_headers": "Access-Control-Allow-Origin"}})
 
+#home
+@app.route('/')
+def home():
+    return "Test Vercel deploy"
 
 #Dashboard
 @app.route('/api/dashboard', methods=['GET'])
@@ -29,6 +32,7 @@ def rockets():
     keep = ['name', 'mass', 'height','id']
     response_object['rockets'] = filter_endpoint_data('https://api.spacexdata.com/v4/rockets',keep)
     return response_object
+
 
 #Launches
 @app.route('/api/launches', methods=['GET'])
@@ -63,6 +67,7 @@ def filter_endpoint_data(url, keep_keys):
         print('api_data:   ---', type(api_data))
         extracted_ = [{key: d.get(key) for key in keep_keys if key in d} for d in api_data]
         return extracted_
+
 
 if __name__ == "__main__":
     app.run()
