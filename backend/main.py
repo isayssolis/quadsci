@@ -30,7 +30,6 @@ def rockets():
     response_object['rockets'] = filter_endpoint_data('https://api.spacexdata.com/v4/rockets',keep)
     return response_object
 
-
 #Launches
 @app.route('/api/launches', methods=['GET'])
 def launches():
@@ -64,7 +63,6 @@ def filter_endpoint_data(url, keep_keys):
         print('api_data:   ---', type(api_data))
         extracted_ = [{key: d.get(key) for key in keep_keys if key in d} for d in api_data]
         return extracted_
-
 
 if __name__ == "__main__":
     app.run()
